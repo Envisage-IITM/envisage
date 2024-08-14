@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +10,11 @@
             margin: 0;
             padding: 0;
             color: #fff;
+            background-color: #000;
         }
 
         header {
-            background-color: rgba(0, 0, 0, 0.5); /* 50% opacity black background */
-            
+            background-color: rgba(0, 0, 0, 0.5);
             position: absolute;
             width: 100%;
             top: 0;
@@ -49,7 +48,7 @@
         }
 
         .top-right-logos img {
-            max-width: 60px;
+            /* max-width: 60px; */
             max-height: 40px;
             transition: transform 0.3s, box-shadow 0.3s;
         }
@@ -90,8 +89,8 @@
         }
 
         .center-logo img {
-            max-width: 120px; /* Increased size */
-            max-height: 90px; /* Increased size */
+            max-width: 120px;
+            max-height: 90px;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
@@ -103,11 +102,14 @@
         .hero h1 {
             font-size: 48px;
             margin-bottom: 20px;
+            color: #c5dee1;
+            /* text-shadow: 0 0 5px #c5dee1, 0 0 10px #c5dee1, 0 0 15px #c5dee1, 0 0 20px #c5dee1; */
         }
 
         .hero p {
             font-size: 24px;
             margin-bottom: 50px;
+            font-family: 'monospace';
         }
 
         .verticals {
@@ -151,6 +153,23 @@
             font-size: 18px;
             line-height: 1.6;
             color: #666;
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px 5%;
+            color: #fff;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .footer a {
+            color: #f0a500;
+            text-decoration: none;
         }
 
         @media (max-width: 768px) {
@@ -207,6 +226,11 @@
             <p>Join our journey in game development, where creativity meets innovation. Explore our latest interactive games, built with the passion and expertise of our talented team.</p>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>Contact us at: <a href="mailto:envisage@domain.com">envisage@domain.com</a></p>
+        <p>Follow us on social media: <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></p>
+    </footer>
 
 </body>
 </html>
