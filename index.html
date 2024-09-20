@@ -3,184 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envisage</title>
+    <title>Envisage - Games</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #121212;
             color: #fff;
-            background-color: #000;
         }
 
         header {
-            background-color: rgba(0, 0, 0, 0.5);
-            position: absolute;
-            width: 100%;
-            top: 0;
-            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent */
+            padding: 20px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        nav {
-            margin: 10px 5%;
-            display: flex;
-            gap: 20px;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s;
+            margin-right: 20px;
         }
 
         nav a:hover {
             color: #f0a500;
         }
 
-        .top-right-logos {
-            margin: 10px 5%;
-            display: flex;
-            gap: 15px;
-        }
-
-        .top-right-logos img {
-            /* max-width: 60px; */
-            max-height: 40px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .top-right-logos img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero {
-            position: relative;
-            background: url('background-image.jpg') no-repeat center center/cover;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .games-section {
+            padding: 50px 5%;
             text-align: center;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .center-logo {
-            margin-bottom: 20px;
-        }
-
-        .center-logo img {
-            max-width: 120px;
-            max-height: 90px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .center-logo img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero h1 {
+        .games-section h1 {
             font-size: 48px;
+            color: #c5dee1;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(197, 222, 225, 0.8); /* Subtle glow */
+        }
+
+        .game-card {
+            background-color: #1e1e1e;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+
+        .game-title {
+            font-size: 28px;
             margin-bottom: 20px;
             color: #c5dee1;
-            /* text-shadow: 0 0 5px #c5dee1, 0 0 10px #c5dee1, 0 0 15px #c5dee1, 0 0 20px #c5dee1; */
         }
 
-        .hero p {
-            font-size: 24px;
-            margin-bottom: 50px;
-            font-family: 'monospace';
-        }
-
-        .verticals {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 40px 5%;
-            background-color: #fff;
-            color: #333;
-            text-align: center;
-            margin: -100px 5% 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            z-index: 2;
-            position: relative;
-        }
-
-        .vertical {
-            flex: 1;
-            padding: 20px;
-            position: relative;
-        }
-
-        .vertical:not(:last-child)::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-            opacity: 0.5;
-        }
-
-        .vertical h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .vertical p {
+        .game-description {
             font-size: 18px;
+            color: #ccc;
             line-height: 1.6;
-            color: #666;
         }
 
-        .footer {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px 5%;
-            color: #fff;
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
             text-align: center;
-        }
-
-        .footer p {
-            font-size: 16px;
-            margin: 5px 0;
-        }
-
-        .footer a {
-            color: #f0a500;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .verticals {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .vertical:not(:last-child)::after {
-                display: none;
-            }
+            color: #888;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -188,48 +82,34 @@
 
     <header>
         <nav>
-            <a href="#">Home</a>
+            <a href="index.html">Home</a>
             <a href="#">Projects</a>
             <a href="games.html">Games</a>
             <a href="#">Team</a>
         </nav>
-        <div class="top-right-logos">
-            <img src="logo2.png" alt="Logo 2">
-            <img src="logo3.png" alt="Logo 3">
-        </div>
     </header>
 
-    <div class="hero">
-        <div class="overlay"></div>
-        <div class="hero-content">
-            <div class="center-logo">
-                <img src="logo1.png" alt="Logo 1">
-            </div>
-            <h1>Envisage</h1>
-            <p>Where Technology Meets Entertainment</p>
+    <div class="games-section">
+        <h1>Our Games</h1>
+
+        <div class="game-card">
+            <h2 class="game-title">Blink</h2>
+            <p class="game-description">Blink is an immersive VR game driven by sound. The player must navigate a world of darkness, with brief flashes of vision, relying on auditory cues to progress.</p>
+        </div>
+
+        <div class="game-card">
+            <h2 class="game-title">Break-a-Leg (Multiplayer)</h2>
+            <p class="game-description">A fast-paced multiplayer game where strategy and agility are key. Engage with others in fun and competitive gameplay, breaking barriers and reaching new levels.</p>
+        </div>
+
+        <div class="game-card">
+            <h2 class="game-title">Echoes of Darkness</h2>
+            <p class="game-description">Explore the eerie and mysterious world of Echoes of Darkness. This game combines an immersive storyline with captivating puzzles, keeping players on edge throughout their journey.</p>
         </div>
     </div>
 
-    <div class="verticals">
-        <div class="vertical">
-            <h3>Shows</h3>
-            <p>Experience cutting-edge performances that blend technology with art, creating an immersive and interactive entertainment experience like no other.</p>
-        </div>
-
-        <div class="vertical">
-            <h3>Tech Ambience</h3>
-            <p>Dive into a world of futuristic setups and environments designed to showcase the latest advancements in technology, providing a unique atmosphere that captivates the senses.</p>
-        </div>
-
-        <div class="vertical">
-            <h3>Gamedev</h3>
-            <p>Join our journey in game development, where creativity meets innovation. Explore our latest interactive games, built with the passion and expertise of our talented team.</p>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <p>Contact us at: <a href="mailto:envisage_cfi@smail.iitm.ac.in">envisage_cfi@smail.iitm.ac.in</a></p>
-        <p>Follow us on social media: <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></p>
+    <footer>
+        <p>Contact us: info@envisage.com</p>
     </footer>
 
 </body>
