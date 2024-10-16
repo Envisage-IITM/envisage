@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Gallery - Envisage</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="content.js" > </script>
+    <script>
+        console.log("HI");
+        fetch("https://api.apispreadsheets.com/data/3VslFKHICjDLfjsc/").then(res=>{
+            console.log("HELLO")
+            if (res.status === 200){
+                // SUCCESS
+                res.json().then(data=>{
+                    const yourData = data.data;
+                    console.log(yourData);
+                    displayContent(yourData);
+        
+                }).catch(err => console.log(err))
+            }
+            else{
+                // ERROR
+            }
+        })
+            </script>
+    
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="projects.html">Projects</a>
+            <a href="games.html">Games</a>
+            <a href="#">Team</a>
+        </nav>
+        <div class="top-right-logos">
+            <img src="logo2.png" alt="Logo 2">
+            <img src="logo3.png" alt="Logo 3">
+        </div>
+
+        
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Our Projects</h1>
+            <p>Explore the innovative projects that showcase our commitment to technology and creativity.</p>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <section class="gallery-container">
+        
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+
+        <p>Contact us at: <a href="mailto:envisage_cfi@smail.iitm.ac.in">envisage_cfi@smail.iitm.ac.in</a></p>
+        <p>Follow us on social media: <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></p>
+    </footer>
+    
+</body>
+</html>
