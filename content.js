@@ -15,7 +15,7 @@ function displayContent(items) {
             if(projectsContainer){
             projectsContainer.innerHTML += `
                  <div class="gallery-item">
-                    <a href = "${link}">
+                    ${ link !='' ? `<a href = "${link}">` : `` }
                     <img src="${imageUrl}" alt="${title}">
                     <div class="project-info">
                         <h3 class="project-title">${title}</h3>
