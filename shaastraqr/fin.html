@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML5 QR Code Scanner with User Input and Submit</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #reader {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        #result,
+        #input_id,
+        #submit_result {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #result,
+        #userInput {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #submitData {
+            background-color: #ddd;
+            border: none;
+            color: #777;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: default;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        #submitData.active {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        #submitData.active:hover {
+            background-color: #45A049;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+
+    <div id="container">
+        <div id="reader"></div>
+        <div id="result"></div>
+        <div id="input_id">
+            <label for="userInput">Enter ID:</label>
+            <input type="text" id="userInput" placeholder="Enter ID">
+        </div>
+        <div id="submit_result">
+            <input type="submit" id="submitData" value="Submit">
+        </div>
+    </div>
+
+    <script>
+        let html5QrcodeScanner;
+        const submitButton = document.getElementById('submitData');
+        const userInputField = document.getElementById('userInput');
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Code scanned = ${decodedText}`, decodedResult);
+            if(document.getElementById('result').innerText == `Scanned: ${decodedText}`){
+                userInputField.value = ""
+            }
+            else{
+
+            document.getElementById('result').innerText = `Scanned: ${decodedText}`;
+
+            } 
+            // userInputField.value = decodedText;
+
+            submitButton.classList.add('active');
+
+            // html5QrcodeScanner.clear();
+        }
+
+        function onScanFailure(error) {
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        function onSubmit(event) {
+            event.preventDefault();
+            if (!submitButton.classList.contains('active')) {
+                alert("Please scan a QR code first!"); // Or handle it differently
+                return;
+            }
+
+            console.log("Submitting data:", userInputField.value);
+
+            // Clear input and result after submit (optional)
+            userInputField.value = "";
+            document.getElementById('result').innerText = "";
+            submitButton.classList.remove('active');
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+
+        html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            /* verbose= */ false);
+
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+        submitButton.addEventListener('click', onSubmit);
+    </script>
+</body>
+</html>
