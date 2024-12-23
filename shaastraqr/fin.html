@@ -140,7 +140,7 @@
             document.getElementById('result').innerText = `Scanned: ${decodedText}`;
             userInputField.value = decodedText;
             submitButton.classList.add('active');
-            html5QrcodeScanner.clear();
+            // html5QrcodeScanner.clear();
         }
 
         function onScanFailure(error) {
@@ -158,7 +158,7 @@
             userInputField.value = "";
             document.getElementById('result').innerText = "";
             submitButton.classList.remove('active');
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         }
 
         html5QrcodeScanner = new Html5QrcodeScanner(
