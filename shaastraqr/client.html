@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        /* Base styles */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        #userInput {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        #input_id {
+            width: 100%;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        #reader {
+            width: 100%;
+            aspect-ratio: 1;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #logs {
+            width: 100%;
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        #export {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #export:hover {
+            background-color: #45A049;
+        }
+
+        /* Media queries */
+        @media only screen and (max-width: 400px) {
+            #container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+    <div id="container">
+        
+        <div id="reader"></div>
+        
+        <div id="input_id">
+            <label for="userInput">Enter Event Name:</label>
+            <input type="text" id="userInput" placeholder="Enter Event Name">
+        </div>
+        <div id="logs"></div>
+        <form>
+        <input type = "submit" id="export" value = "Export IDs">
+
+        </form>
+    </div>
+    
+    <script>
+          const userInputField = document.getElementById('userInput');
+        // Store scanned IDs in a Set to ensure uniqueness
+        const scannedIDs = new Set();
+        const logsDiv = document.getElementById('logs');
+        
+    
+        // Update the log display
+        function updateLogs() {
+            logsDiv.innerHTML = Array.from(scannedIDs).map(id => `<div>${id}</div>`).join('');
+        }
+
+        // Initialize the QR code reader
+        const html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                // qrbox: 250,
+            },
+            (decodedText) => {
+                if (!scannedIDs.has(decodedText)) {
+                    var currentTime = new Date().toLocaleString();
+                    scannedIDs.add(currentTime);
+                    scannedIDs.add(decodedText);
+                    updateLogs();
+                } else {
+                    console.log(`Duplicate ID ignored: ${decodedText}`);
+                }
+            },
+            (errorMessage) => {
+                console.log(`QR Code scanning error: ${errorMessage}`);
+            }
+        ).catch(err => {
+            console.error(`Unable to start scanning: ${err}`);
+        });
+
+
+        // Prevent page refresh
+        window.onbeforeunload = function() {
+        return "Dude, are you sure you want to leave? Think of the kittens!";
+    }
+
+        // Export IDs to a file
+        document.getElementById('export').addEventListener('click', () => {
+            const blob = new Blob([Array.from(scannedIDs).join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = userInputField.value + '.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        const form = document.querySelector('form'); 
+     
+     form.addEventListener('submit', function(event) { 
+       event.preventDefault(); 
+       // Your form submission logic here 
+     }); 
+        
+    </script>
+</body>
+</html>
