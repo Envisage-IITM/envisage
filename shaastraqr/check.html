@@ -163,7 +163,7 @@
 
         // Export IDs to a file
         document.getElementById('export').addEventListener('click', () => {
-            const blob = new Blob([Array.from(scannedIDs).join('\n')], { type: 'text/plain' });
+            const blob = new Blob([`Event: ${userInputField.value} \n`+Array.from(scannedIDs).join('\n')], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
