@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>HTML5 QR Code Scanner</title>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://unpkg.com/html5-qrcode" ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         /* Base styles */
@@ -72,7 +72,7 @@
             font-size: 1rem;
         }
 
-        #submitData {
+        #submitData,#export  {
             background-color: #ddd;
             border: none;
             color: #777;
@@ -89,14 +89,14 @@
             transition: background-color 0.3s ease;
         }
 
-        #submitData.active {
+        #submitData.active , #export{
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
             pointer-events: auto;
         }
 
-        #submitData.active:hover {
+        #submitData.active:hover , #export.active:hover {
             background-color: #45A049;
         }
 
@@ -119,26 +119,32 @@
 <body>
     <h1>QR Code Scanner</h1>
     <div id="container">
+        <form>
         <div id="reader"></div>
-        <div id="result"></div>
+        <div id="result"><span id="Scanned"></span><span id = "decodedText"></span></div>
         <div id="input_id">
             <label for="userInput">Enter ID:</label>
             <input type="text" id="userInput" placeholder="Enter ID">
         </div>
         <div id="submit_result">
             <button id="submitData">Submit</button>
+            <input type = "submit" id="export" value = "Export">
         </div>
+        </form>
     </div>
 
     <script>
         let html5QrcodeScanner;
         const submitButton = document.getElementById('submitData');
         const userInputField = document.getElementById('userInput');
-
-        function onScanSuccess(decodedText, decodedResult) {
-            console.log(`Code scanned = ${decodedText}`, decodedResult);
-            document.getElementById('result').innerText = `Scanned: ${decodedText}`;
-            userInputField.value = decodedText;
+        const scannedIDs = new Set();
+        function onScanSuccess(decodedText) {
+            
+            console.log(`Code scanned = ${decodedText}`);
+            
+            document.getElementById('decodedText').innerHTML = decodedText ;
+            document.getElementById('Scanned').innerHTML = "Scanned: " ;
+            // userInputField.value = decodedText;
             submitButton.classList.add('active');
             // html5QrcodeScanner.clear();
         }
@@ -153,22 +159,67 @@
                 alert("Please scan a QR code first!");
                 return;
             }
-
+            var currentTime = new Date().toLocaleString();
+            scannedIDs.add(currentTime);
+            const decodedText = document.getElementById('decodedText').innerHTML
+            scannedIDs.add(decodedText+ " " + userInputField.value);
             console.log("Submitting data:", userInputField.value);
             userInputField.value = "";
-            document.getElementById('result').innerText = "";
+            document.getElementById('decodedText').innerHTML = "" ;
+            document.getElementById('Scanned').innerHTML = "" ;
             submitButton.classList.remove('active');
             // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         }
 
-        html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader",
-            { fps: 10},
-            /* verbose= */ false);
+        const html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                // qrbox: 250,
+            },
+            (decodedText) => {
+                onScanSuccess(decodedText);
+            },
+            (errorMessage) => {
+                onScanFailure(errorMessage);
+            }
+        ).catch(err => {
+            console.error(`Unable to start scanning: ${err}`);
+        });
 
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
         submitButton.addEventListener('click', onSubmit);
+        document.getElementById('export').addEventListener('click', () => {
+            const blob = new Blob([Array.from(scannedIDs).join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const filename = `${getCurrentTimestampFilename()}`; 
+            a.download = "fin" +filename + '.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        const form = document.querySelector('form'); 
+     
+     form.addEventListener('submit', function(event) { 
+       event.preventDefault(); 
+       // Your form submission logic here 
+     }); 
+     function getCurrentTimestampFilename() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+}
+
+
     </script>
 </body>
 </html>
